@@ -27,38 +27,33 @@
     <!--/ bradcam_area  -->
 
     <!--================Blog Area =================-->
-    {% for p in posts %}
         <section class="blog_area single-post-area section-padding">
             <div class="container">
                 <div class="row">
                     <div class="col-lg-8 posts-list">
-                        {% for d in posts_details %}
                             <div class="single-post">
                                 <div class="feature-img">
-                                    <img class="img-fluid" src="{{ p.blog_images.url }}" alt="">
+                                    <img class="img-fluid" src="{{ post.blog_images.url }}" alt="">
                                 </div>
                                 <div class="blog_details">
 
                                     <h2>
-                                        {{ d.details_title }}
+                                        {{ post.blog_title }}
                                     </h2>
-                                    {% for post in posts %}
                                         <ul class="blog-info-link mt-3 mb-4">
                                             <li><a href="#"><img src="{% static 'home/img/icon/user.png' %}" width="15"> {{ post.blog_who_posted }}</a>
                                             </li>
                                             <li><a href="#"><img src="{% static 'home/img/icon/comment-solid.svg' %}" width="15"> {{ post.blog_comments }}</a>
                                             </li>
                                         </ul>
-                                    {% endfor %}
-                                    <p class="excert">{{ d.details_descriptions|safe }}</p>
+                                    <p class="excert">{{ post.blog_descriptions|safe|linebreaks }}</p>
                                     <div class="quote-wrapper">
                                         <div class="quotes">
-                                            {{ d.details_card }}
+                                            {{ post.blog_cards }}
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        {% endfor %}
                         <div class="navigation-top">
                             <div class="d-sm-flex justify-content-between text-center">
                                 <p class="like-info"><span class="align-middle"><img src="{% static 'home/img/icon/thumbs-up.png' %}" alt=""></span> Lily
@@ -212,19 +207,19 @@
                             </form>
                         </div>
                     </div>
+
                     <div class="col-lg-4">
                         <div class="blog_right_sidebar">
                             <aside class="single_sidebar_widget post_category_widget">
                                 <a href="{% url 'blog' %}"><h4 class="widget_title">Category</h4></a>
                                 <ul class="list cat-list">
-                                    {% for c in сategory_blog %}
-                                        <li>
+                                    {% for c in categories_blog %}
+                                    <li>
                                             <a href="{{ c.get_absolute_url }}" class="d-flex">
                                                 <p>{{ c.categories_name }}</p>
-{#                                                <p>(37)</p>#}
                                             </a>
-                                        </li>
-                                    {% endfor %}
+                                    </li>
+                                {% endfor %}
                                 </ul>
                             </aside>
 
@@ -272,7 +267,6 @@
                 </div>
             </div>
         </section>
-    {% endfor %}
     <!--================ Blog Area end =================-->
 
 

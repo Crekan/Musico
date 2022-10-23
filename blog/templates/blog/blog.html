@@ -32,7 +32,7 @@
             <div class="row">
                 <div class="col-lg-8 mb-5 mb-lg-0">
                     <div class="blog_left_sidebar">
-                        {% for post in posts %}
+                            {% for post in posts %}
                             <article class="blog_item">
                                 <div class="blog_item_img">
                                     <img class="card-img rounded-0" src="{{ post.blog_images.url }}" alt="">
@@ -43,12 +43,12 @@
 
 
                                 <div class="blog_details">
-                                    <a class="d-inline-block" href="{% url 'detail' post.id %}">
+                                    <a class="d-inline-block" href="{{ post.get_absolute_url }}">
                                         <h2>{{ post.blog_title }}</h2>
                                     </a>
 
 
-                                    <p>{{ post.blog_descriptions }}</p>
+                                    <p>{{ post.blog_descriptions|linebreaks|truncatewords:50 }}</p>
                                     <ul class="blog-info-link">
                                         <li><a href="#"><img src="{% static 'home/img/icon/user.png' %}" width="15"> {{ post.blog_who_posted }}</a></li>
                                         <li><a href="#"><img src="{% static 'home/img/icon/comment-solid.svg' %}" width="15"> {{ post.blog_comments }}</a></li>
@@ -109,10 +109,9 @@
                             <ul class="list cat-list">
                                 {% for c in categories_blog %}
                                     <li>
-                                        <a href="{{ c.get_absolute_url }}" class="d-flex">
-                                            <p>{{ c.categories_name }}</p>
-{#                                            <p>()</p>#}
-                                        </a>
+                                            <a href="{{ c.get_absolute_url }}" class="d-flex">
+                                                <p>{{ c.categories_name }}</p>
+                                            </a>
                                     </li>
                                 {% endfor %}
                             </ul>

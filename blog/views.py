@@ -1,5 +1,4 @@
-from django.shortcuts import render, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .models import *
 
@@ -35,34 +34,25 @@ class Search(ListView):
         return context
 
 
-def detail(request, categories_blog):
-    post = get_object_or_404(BlogPosts, pk=categories_blog)
-    posts = BlogPosts.objects.filter(pk=categories_blog)
-    сategory_blog = BlogsCategories.objects.all()
-    posts_details = DetailsBlog.objects.filter(pk=categories_blog)
-    recent_post_blog = RecentPost.objects.all()
-    images_instagram = InstagramFeeds.objects.all()
-    author = AuthorBlog.objects.all()
+class ShowPost(DetailView):
+    model = BlogPosts
+    template_name = 'blog/single-blog.html'
+    pk_url_kwarg = 'categories_blog'
+    context_object_name = 'post'
 
-    context = {
-        'post': post,
-        'posts': posts,
-        'сategory_blog': сategory_blog,
-        'posts_details': posts_details,
-        'recent_post_blog': recent_post_blog,
-        'images_instagram': images_instagram,
-        'author': author,
-    }
-    return render(request, 'blog/single-blog.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories_blog'] = BlogsCategories.objects.all()
+        return context
 
 
-def show_categories(request, categories_id):
-    posts = BlogPosts.objects.filter(blog_category=categories_id)
-    categories_blog = BlogsCategories.objects.all()
+class ShowCategories(ListView):
+    model = BlogPosts
+    template_name = 'blog/blog.html'
+    context_object_name = 'categories_blog'
 
-    context = {
-        'posts': posts,
-        'categories_blog': categories_blog,
-    }
-
-    return render(request, 'blog/blog.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['posts'] = BlogPosts.objects.filter(blog_category_id=self.kwargs['categories_int'])
+        context['categories_blog'] = BlogsCategories.objects.all()
+        return context

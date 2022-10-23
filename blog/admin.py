@@ -11,7 +11,6 @@ class CommentAdmin(admin.ModelAdmin):
 admin.site.register(Comment, CommentAdmin)
 admin.site.register(BlogPosts)
 admin.site.register(BlogsCategories)
-admin.site.register(DetailsBlog)
 admin.site.register(RecentPost)
 admin.site.register(InstagramFeeds)
 admin.site.register(AuthorBlog)
