@@ -21,12 +21,19 @@ class Blog(ListView):
         return context
 
 
-class SearchResultsView(ListView):
-    model = BlogPosts
+class Search(ListView):
+    paginate_by = 3
+    context_object_name = 'posts'
     template_name = 'blog/blog.html'
 
     def get_queryset(self):
-        return BlogPosts.objects.filter(name__icontains='test s')
+        return BlogPosts.objects.filter(blog_title__icontains=self.request.GET.get("q"))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q")
+        context['categories_blog'] = BlogsCategories.objects.all()
+        return context
 
 
 def detail(request, categories_blog):
