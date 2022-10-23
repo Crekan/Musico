@@ -1,16 +1,15 @@
-from django.shortcuts import render
+from django.views.generic import ListView
 from home.models import *
 from .models import *
 
 
-def about(request):
-    home_about_area_list = AboutArea.objects.all()
-    about_url_video = AboutVideo.objects.all()
-    home_galleries_list = GalleriesModel.objects.all()
+class About(ListView):
+    model = AboutArea
+    template_name = 'about/about.html'
+    context_object_name = 'home_about_area_list'
 
-    contex = {
-        'home_about_area_list': home_about_area_list,
-        'about_url_video': about_url_video,
-        'home_galleries_list': home_galleries_list,
-    }
-    return render(request, 'about/about.html', contex)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['about_url_video'] = AboutVideo.objects.all()
+        context['home_galleries_list'] = GalleriesModel.objects.all()
+        return context

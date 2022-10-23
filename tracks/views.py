@@ -1,14 +1,15 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+
 from .models import *
 from home.models import *
 
 
-def tracks(request):
-    tracks_area = TracksMusicArea.objects.all()
-    home_images_list = ImageModel.objects.all()
+class Tracks(ListView):
+    model = TracksMusicArea
+    template_name = 'tracks/track.html'
+    context_object_name = 'tracks_area'
 
-    context = {
-        'tracks_area': tracks_area,
-        'home_images_list': home_images_list,
-    }
-    return render(request, 'tracks/track.html', context)
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['home_images_list'] = ImageModel.objects.all()
+        return context
