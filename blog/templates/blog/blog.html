@@ -1,0 +1,169 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}Blog{% endblock %}
+
+
+
+
+{% block content %}
+
+
+
+
+    <!-- bradcam_area  -->
+    <div class="bradcam_area breadcam_bg_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text text-center">
+                        <h3>blog</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ bradcam_area  -->
+
+
+    <!--================Blog Area =================-->
+    <section class="blog_area section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mb-5 mb-lg-0">
+                    <div class="blog_left_sidebar">
+                        {% for post in posts %}
+                            <article class="blog_item">
+                                <div class="blog_item_img">
+                                    <img class="card-img rounded-0" src="{{ post.blog_images.url }}" alt="">
+                                    <a href="#" class="blog_item_date">
+                                        <p>{{ post.blog_date_added }}</p>
+                                    </a>
+                                </div>
+
+
+                                <div class="blog_details">
+                                    <a class="d-inline-block" href="{% url 'detail' post.id %}">
+                                        <h2>{{ post.blog_title }}</h2>
+                                    </a>
+
+
+                                    <p>{{ post.blog_descriptions }}</p>
+                                    <ul class="blog-info-link">
+                                        <li><a href="#"><i class="fa fa-user"></i> {{ post.blog_who_posted }}</a></li>
+                                        <li><a href="#"><i class="fa fa-comments"></i> {{ post.blog_comments }}</a></li>
+                                    </ul>
+                                </div>
+
+
+                            </article>
+                        {% endfor %}
+
+
+                        <nav class="blog-pagination justify-content-center d-flex">
+                            <ul class="pagination">
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Previous">
+                                        <i class="ti-angle-left"></i>
+                                    </a>
+                                </li>
+                                {% for p in page_obj.paginator.page_range %}
+                                    <li class="page-item">
+                                        <a href="?page={{ p }}" class="page-link">{{ p }}</a>
+                                    </li>
+                                {% endfor %}
+                                <li class="page-item">
+                                    <a href="#" class="page-link" aria-label="Next">
+                                        <i class="ti-angle-right"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="blog_right_sidebar">
+                        <aside class="single_sidebar_widget search_widget">
+                            <form action="#">
+                                <div class="form-group">
+                                    <div class="input-group mb-3">
+                                        <input type="text" class="form-control" placeholder='Search Keyword'
+                                               onfocus="this.placeholder = ''"
+                                               onblur="this.placeholder = 'Search Keyword'">
+                                        <div class="input-group-append">
+                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Search
+                                </button>
+                            </form>
+                        </aside>
+
+                        <aside class="single_sidebar_widget post_category_widget">
+                            <a href="{% url 'blog' %}"><h4 class="widget_title">Category</h4></a>
+                            <ul class="list cat-list">
+                                {% for c in categories_blog %}
+                                    <li>
+                                        <a href="{{ c.get_absolute_url }}" class="d-flex">
+                                            <p>{{ c.categories_name }}</p>
+                                            <p>(37)</p>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </aside>
+
+                        <aside class="single_sidebar_widget popular_post_widget">
+                            <h3 class="widget_title">Recent Post</h3>
+                            {% for recent in recent_post_blog %}
+                            <div class="media post_item">
+                                <img src="{{ recent.recent_images.url }}" alt="post">
+                                <div class="media-body">
+                                    <h3>{{ recent.recent_title }}</h3>
+                                    <p>{{ recent.recent_date_added }}</p>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </aside>
+
+                        <aside class="single_sidebar_widget instagram_feeds">
+                            <h4 class="widget_title">Instagram Feeds</h4>
+                            <ul class="instagram_row flex-wrap">
+                                {% for inst in images_instagram %}
+                                <li>
+                                    <img class="img-fluid" src="{{ inst.instagram_images.url }}" alt="">
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </aside>
+
+
+                        <aside class="single_sidebar_widget newsletter_widget">
+                            <h4 class="widget_title">Newsletter</h4>
+
+                            <form action="#">
+                                <div class="form-group">
+                                    <input type="email" class="form-control" onfocus="this.placeholder = ''"
+                                           onblur="this.placeholder = 'Enter email'" placeholder='Enter email' required>
+                                </div>
+                                <button class="button rounded-0 primary-bg text-white w-100 btn_1 boxed-btn"
+                                        type="submit">Subscribe
+                                </button>
+                            </form>
+                        </aside>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--================Blog Area =================-->
+
+
+
+
+
+
+
+{% endblock %}

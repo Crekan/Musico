@@ -1,0 +1,120 @@
+{% extends 'home/base.html' %}
+{% load static %}
+
+{% block title %}About{% endblock %}
+
+
+
+
+
+{% block content %}
+
+
+
+
+
+    <!-- bradcam_area  -->
+    <div class="bradcam_area breadcam_bg_2">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="bradcam_text text-center">
+                        <h3>About Me</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ bradcam_area  -->
+
+
+    <!-- about_area  -->
+    <div class="about_area">
+        <div class="container">
+            {% for home_area in home_about_area_list %}
+            <div class="row align-items-center">
+                <div class="col-xl-5 col-md-6">
+                    <div class="about_thumb">
+                        <img class="img-fluid" src="{{ home_area.area_images.url }}" alt="">
+                    </div>
+                </div>
+                <div class="col-xl-7 col-md-6">
+                    <div class="about_info">
+                        <h3>{{ home_area.area_title }}</h3>
+                        <p>{{ home_area.area_descriptions }}</p>
+                        <div class="signature">
+                            <img src="{{ home_area.area_painting.url }}" alt="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!--/ about_area  -->
+    <div class="singer_video">
+        <div class="container">
+            {% for video in about_url_video %}
+            <div class="row justify-content-center">
+                <div class="col-xl-10">
+                    <div class="image">
+                        <img src="img/about/singer.png" alt="">
+                        <img src="{{ video.about_images.url }}" alt="">
+                        <div class="video_btn">
+                            <a class="popup-video" href="{{ video.about_video }}"><img src="{% static 'home/img/icon/play-button.png' %}" alt=""></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- gallery -->
+    <div class="gallery_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="section_title text-center mb-65">
+                        <h3>Image Galleries</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row grid">
+                {% for img in home_galleries_list %}
+                    <div class="col-xl-4 col-lg-4 grid-item cat1 col-md-4">
+                        <div class="single-gallery mb-30">
+                                <div class="portfolio-img">
+                                        <img src="{{ img.galleries_img.url }}" alt="">
+                                </div>
+                                <div class="gallery_hover">
+                                    <a  class="popup-image"  href="{ img.galleries_img.url }}" class="hover_inner">
+                                        <img src="{% static 'home/img/icon/magnifier.png' %}" alt="">
+                                    </a>
+                                </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+        </div>
+    </div>
+    <!--/ gallery -->
+
+    <!-- contact_rsvp -->
+    <div class="contact_rsvp">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-12">
+                    <div class="text text-center">
+                        <h3>Contact For RSVP</h3>
+                        <a class="boxed-btn3" href="contact.html">Contact Me</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/ contact_rsvp -->
+
+
+
+
+{% endblock %}
