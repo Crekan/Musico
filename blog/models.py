@@ -10,7 +10,7 @@ class BlogPosts(models.Model):
     blog_who_posted = models.CharField(max_length=150, verbose_name='Кто опубликовал пост')
     blog_comments = models.CharField(max_length=150, verbose_name='Коментарии')
     blog_date_added = models.DateField(verbose_name='Дата добавления')
-    blog_category = models.ForeignKey('BlogsCategories', on_delete=models.PROTECT, verbose_name='Категория поста')
+    blog_category = models.ForeignKey('BlogsCategories', on_delete=models.PROTECT, verbose_name='Категория поста', null=True)
 
     def __str__(self):
         return self.blog_title
@@ -87,3 +87,16 @@ class InstagramFeeds(models.Model):
     class Meta:
         verbose_name = 'Instagram'
         verbose_name_plural = 'Instagram'
+
+
+class AuthorBlog(models.Model):
+    author_images = models.ImageField(upload_to='author_images/', verbose_name='Фото')
+    author_title = models.CharField(max_length=150, verbose_name='Имя')
+    author_descriptions = models.CharField(max_length=255, verbose_name='Описание')
+
+    def __str__(self):
+        return self.author_title
+
+    class Meta:
+        verbose_name = 'Автор'
+        verbose_name_plural = 'Автор'

@@ -50,8 +50,8 @@
 
                                     <p>{{ post.blog_descriptions }}</p>
                                     <ul class="blog-info-link">
-                                        <li><a href="#"><i class="fa fa-user"></i> {{ post.blog_who_posted }}</a></li>
-                                        <li><a href="#"><i class="fa fa-comments"></i> {{ post.blog_comments }}</a></li>
+                                        <li><a href="#"><img src="{% static 'home/img/icon/user.png' %}" width="15"> {{ post.blog_who_posted }}</a></li>
+                                        <li><a href="#"><img src="{% static 'home/img/icon/comment-solid.svg' %}" width="15"> {{ post.blog_comments }}</a></li>
                                     </ul>
                                 </div>
 
@@ -93,7 +93,7 @@
                                                onfocus="this.placeholder = ''"
                                                onblur="this.placeholder = 'Search Keyword'">
                                         <div class="input-group-append">
-                                            <button class="btn" type="button"><i class="ti-search"></i></button>
+                                            <button class="btn" type="button"><img src="{% static 'home/img/icon/magnifying-glass.png' %}" alt=""></button>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                     <li>
                                         <a href="{{ c.get_absolute_url }}" class="d-flex">
                                             <p>{{ c.categories_name }}</p>
-                                            <p>(37)</p>
+{#                                            <p>()</p>#}
                                         </a>
                                     </li>
                                 {% endfor %}

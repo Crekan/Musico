@@ -22,7 +22,6 @@ class Blog(ListView):
 
 
 class Search(ListView):
-    paginate_by = 3
     context_object_name = 'posts'
     template_name = 'blog/blog.html'
 
@@ -43,6 +42,7 @@ def detail(request, categories_blog):
     posts_details = DetailsBlog.objects.filter(pk=categories_blog)
     recent_post_blog = RecentPost.objects.all()
     images_instagram = InstagramFeeds.objects.all()
+    author = AuthorBlog.objects.all()
 
     context = {
         'post': post,
@@ -51,6 +51,7 @@ def detail(request, categories_blog):
         'posts_details': posts_details,
         'recent_post_blog': recent_post_blog,
         'images_instagram': images_instagram,
+        'author': author,
     }
     return render(request, 'blog/single-blog.html', context)
 
