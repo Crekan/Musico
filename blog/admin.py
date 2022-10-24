@@ -2,15 +2,13 @@ from django.contrib import admin
 from .models import *
 
 
-class CommentAdmin(admin.ModelAdmin):
-    list_display = ('name', 'post', 'created', 'active')
-    list_filter = ('active', 'created', 'updated')
-    search_fields = ('name', 'body')
+class BlogsCategoriesAdmin(admin.ModelAdmin):
+    prepopulated_fields = {"slug": ("categories_name",)}
 
 
-admin.site.register(Comment, CommentAdmin)
 admin.site.register(BlogPosts)
-admin.site.register(BlogsCategories)
+admin.site.register(BlogsCategories, BlogsCategoriesAdmin)
 admin.site.register(RecentPost)
 admin.site.register(InstagramFeeds)
 admin.site.register(AuthorBlog)
+admin.site.register(Like)

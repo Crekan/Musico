@@ -57,24 +57,28 @@
                         </div>
                     </div>
 
-                    <div class="navigation-top">
-                        <div class="d-sm-flex justify-content-between text-center">
-                            <p class="like-info">
-                                <button type="submit">
-                                    <span class="align-middle">
-                                        <img src="{% static 'home/img/icon/thumbs-up.png' %}" alt="">
-                                    </span>
-                                </button>
-                                kol
-                            </p>
-                            <ul class="social-icons">
-                                <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
-                                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                                <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
-                                <li><a href="#"><i class="fa fa-behance"></i></a></li>
-                            </ul>
+                    <form action="{% url 'like-post' %}" method="post">
+                        <div class="navigation-top">
+                            <div class="d-sm-flex justify-content-between text-center">
+                                <p class="like-info">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="post_id" value="{{ post.id }}">
+                                    {% if user not in post.likes.all %}
+                                        <input type="image" src="{% static 'home/img/icon/thumbs-up.png' %}" alt="Кнопка «input»">
+                                    {% else %}
+                                        <input type="image" src="{% static 'home/img/icon/thumbs-up.png' %}" alt="Кнопка «input»">
+                                    {% endif %}
+                                <strong style="vertical-align: 7px">Likes - {{ post.likes.all.count }}</strong>
+                                </p>
+                                <ul class="social-icons">
+                                    <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-dribbble"></i></a></li>
+                                    <li><a href="#"><i class="fa fa-behance"></i></a></li>
+                                </ul>
+                            </div>
                         </div>
-                    </div>
+                    </form>
 
 
 

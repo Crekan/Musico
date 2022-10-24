@@ -1,6 +1,32 @@
+from django.http import HttpResponseRedirect
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
 
 from .models import *
+
+
+def like_post(request):
+    user = request.user
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        post_obj = BlogPosts.objects.get(id=post_id)
+
+        if user in post_obj.likes.all():
+            post_obj.likes.remove(user)
+        else:
+            post_obj.likes.add(user)
+
+        like, created = Like.objects.get_or_create(user=user, post_id=post_id)
+
+        if not created:
+            if like.value == 'Like':
+                like.value = 'Unlike'
+            else:
+                like.value = 'Like'
+
+        like.save()
+
+    return redirect(post_obj)
 
 
 class Blog(ListView):
@@ -37,10 +63,10 @@ class Search(ListView):
 class ShowPost(DetailView):
     model = BlogPosts
     template_name = 'blog/single-blog.html'
-    slug_url_kwarg = 'categories_blog'
+    pk_url_kwarg = 'categories_blog'
     context_object_name = 'post'
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_blog'] = BlogsCategories.objects.all()
         context['author'] = AuthorBlog.objects.all()
@@ -59,5 +85,3 @@ class ShowCategories(ListView):
         context['recent_post_blog'] = RecentPost.objects.all()
         context['images_instagram'] = InstagramFeeds.objects.all()
         return context
-
-

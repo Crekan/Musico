@@ -4,8 +4,23 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 
 
+LIKE_CHOICES = (
+    ('Like', 'Like'),
+    ('Unlike', 'Unlike')
+)
+
+
+class Like(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey('BlogPosts', on_delete=models.CASCADE)
+    value = models.CharField(choices=LIKE_CHOICES, default='Like', max_length=10)
+
+    def __str__(self):
+        return str(self.post)
+
+
 class BlogPosts(models.Model):
-    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL', null=True)
+    # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL', null=True)
     blog_images = models.ImageField(upload_to='blog_images/', verbose_name='Фото')
     blog_title = models.CharField(max_length=150, verbose_name='Заголовок', unique=True)
     blog_descriptions = models.TextField(verbose_name='Описание')
@@ -15,7 +30,11 @@ class BlogPosts(models.Model):
     blog_cards = models.TextField(verbose_name='Карточка', null=True)
     blog_category = models.ForeignKey('BlogsCategories', on_delete=models.PROTECT, verbose_name='Категория поста',
                                       null=True)
-    likes = models.ManyToManyField(User, related_name='blog_posts', blank=True)
+    likes = models.ManyToManyField(User, blank=True, default=None, related_name='liked')
+
+    @property
+    def num_likes(self):
+        return self.likes.all().count()
 
     def __str__(self):
         return self.blog_title
@@ -26,7 +45,7 @@ class BlogPosts(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', kwargs={
-            'categories_blog': self.slug
+            'categories_blog': self.pk
         })
 
 
