@@ -61,23 +61,31 @@
 
 
                         <nav class="blog-pagination justify-content-center d-flex">
-                            <ul class="pagination">
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Previous">
-                                        <i class="ti-angle-left"></i>
-                                    </a>
-                                </li>
-                                {% for p in page_obj.paginator.page_range %}
+                            {% if page_obj.has_other_pages %}
+                                <ul class="pagination">
                                     <li class="page-item">
-                                        <a href="?page={{ p }}" class="page-link">{{ p }}</a>
+                                        {% if page_obj.has_previous %}
+                                            <a href="?page={{ page_obj.previous_page_number }}" class="page-link" aria-label="Previous">
+                                                <img src="{% static 'home/img/icon/left-arrow.png' %}" alt="">
+                                            </a>
+                                            {% endif %}
                                     </li>
-                                {% endfor %}
-                                <li class="page-item">
-                                    <a href="#" class="page-link" aria-label="Next">
-                                        <i class="ti-angle-right"></i>
-                                    </a>
-                                </li>
-                            </ul>
+                                        {% for p in page_obj.paginator.page_range %}
+                                            {% if p >= page_obj.number|add:-2 and p <= page_obj.number|add:2 %}
+                                                <li class="page-item">
+                                                    <a href="?page={{ p }}" class="page-link">{{ p }}</a>
+                                                </li>
+                                            {% endif %}
+                                        {% endfor %}
+                                    <li class="page-item">
+                                        {% if page_obj.has_next %}
+                                            <a href="?page={{ page_obj.next_page_number }}" class="page-link" aria-label="Next">
+                                                <img src="{% static 'home/img/icon/right-arrow.png' %}" alt="">
+                                            </a>
+                                        {% endif %}
+                                    </li>
+                                </ul>
+                            {% endif %}
                         </nav>
                     </div>
                 </div>
