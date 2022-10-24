@@ -1,8 +1,11 @@
 from django.db import models
 from django.urls import reverse
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.models import User
 
 
 class BlogPosts(models.Model):
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL', null=True)
     blog_images = models.ImageField(upload_to='blog_images/', verbose_name='Фото')
     blog_title = models.CharField(max_length=150, verbose_name='Заголовок', unique=True)
     blog_descriptions = models.TextField(verbose_name='Описание')
@@ -12,6 +15,7 @@ class BlogPosts(models.Model):
     blog_cards = models.TextField(verbose_name='Карточка', null=True)
     blog_category = models.ForeignKey('BlogsCategories', on_delete=models.PROTECT, verbose_name='Категория поста',
                                       null=True)
+    likes = models.ManyToManyField(User, related_name='blog_posts', blank=True)
 
     def __str__(self):
         return self.blog_title
@@ -22,11 +26,12 @@ class BlogPosts(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', kwargs={
-            'categories_blog': self.pk
+            'categories_blog': self.slug
         })
 
 
 class BlogsCategories(models.Model):
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL', null=True)
     categories_name = models.CharField(max_length=255, verbose_name='Категория')
 
     def __str__(self):
@@ -38,40 +43,8 @@ class BlogsCategories(models.Model):
 
     def get_absolute_url(self):
         return reverse('show_categories', kwargs={
-            'categories_int': self.pk
+            'categories_slug': self.slug
         })
-
-
-class Comment(models.Model):
-    post = models.ForeignKey('BlogPosts', on_delete=models.PROTECT, related_name='comments')
-    images = models.ImageField(upload_to='images_comments/')
-    name = models.CharField(max_length=150, verbose_name='')
-    body = models.TextField()
-    created = models.DateTimeField(auto_now_add=True)
-    updated = models.DateTimeField(auto_now=True)
-    active = models.BooleanField(default=True)
-
-    class Meta:
-        ordering = ('created',)
-        verbose_name = 'Коментарий'
-        verbose_name_plural = 'Коментарии'
-
-    def __str__(self):
-        return f'Comment by {self.name} on {self.post}'
-
-
-# class DetailsBlog(models.Model):
-#     details_title = models.CharField(max_length=250, verbose_name='Заголовок')
-#     details_descriptions = HTMLField(verbose_name='Описание')
-#     details_card =
-#     details_blog_posts = models.ForeignKey('BlogPosts', on_delete=models.PROTECT, verbose_name='На пост', null=True)
-#
-#     def __str__(self):
-#         return self.details_title
-#
-#     class Meta:
-#         verbose_name = 'Пост'
-#         verbose_name_plural = 'Посты'
 
 
 class RecentPost(models.Model):

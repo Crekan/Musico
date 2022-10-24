@@ -7,7 +7,7 @@ class Blog(ListView):
     model = BlogPosts
     template_name = 'blog/blog.html'
     context_object_name = 'posts'
-    paginate_by = 1
+    paginate_by = 5
 
     def get_queryset(self):
         return BlogPosts.objects.all()
@@ -37,12 +37,13 @@ class Search(ListView):
 class ShowPost(DetailView):
     model = BlogPosts
     template_name = 'blog/single-blog.html'
-    pk_url_kwarg = 'categories_blog'
+    slug_url_kwarg = 'categories_blog'
     context_object_name = 'post'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories_blog'] = BlogsCategories.objects.all()
+        context['author'] = AuthorBlog.objects.all()
         return context
 
 
@@ -53,8 +54,10 @@ class ShowCategories(ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['posts'] = BlogPosts.objects.filter(blog_category_id=self.kwargs['categories_int'])
+        context['posts'] = BlogPosts.objects.filter(blog_category__slug=self.kwargs['categories_slug'])
         context['categories_blog'] = BlogsCategories.objects.all()
         context['recent_post_blog'] = RecentPost.objects.all()
         context['images_instagram'] = InstagramFeeds.objects.all()
         return context
+
+
