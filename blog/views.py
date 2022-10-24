@@ -63,7 +63,7 @@ class Search(ListView):
 class ShowPost(DetailView):
     model = BlogPosts
     template_name = 'blog/single-blog.html'
-    pk_url_kwarg = 'categories_blog'
+    slug_url_kwarg = 'categories_blog'
     context_object_name = 'post'
 
     def get_context_data(self, *args, **kwargs):

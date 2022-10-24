@@ -20,7 +20,7 @@ class Like(models.Model):
 
 
 class BlogPosts(models.Model):
-    # slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL', null=True)
+    slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL', null=True)
     blog_images = models.ImageField(upload_to='blog_images/', verbose_name='Фото')
     blog_title = models.CharField(max_length=150, verbose_name='Заголовок', unique=True)
     blog_descriptions = models.TextField(verbose_name='Описание')
@@ -45,7 +45,7 @@ class BlogPosts(models.Model):
 
     def get_absolute_url(self):
         return reverse('detail', kwargs={
-            'categories_blog': self.pk
+            'categories_blog': self.slug
         })
 
 
