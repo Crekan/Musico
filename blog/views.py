@@ -1,33 +1,10 @@
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView
 from hitcount.views import HitCountDetailView
 
 from .models import *
 from .forms import *
-
-
-def like_post(request):
-    user = request.user
-    if request.method == 'POST':
-        post_id = request.POST.get('post_id')
-        post_obj = BlogPosts.objects.get(id=post_id)
-
-        if user in post_obj.likes.all():
-            post_obj.likes.remove(user)
-        else:
-            post_obj.likes.add(user)
-
-        like, created = Like.objects.get_or_create(user=user, post_id=post_id)
-
-        if not created:
-            if like.value == 'Like':
-                like.value = 'Unlike'
-            else:
-                like.value = 'Like'
-
-        like.save()
-
-    return redirect(post_obj)
 
 
 class Blog(ListView):
@@ -47,20 +24,6 @@ class Blog(ListView):
         return context
 
 
-class Search(ListView):
-    context_object_name = 'posts'
-    template_name = 'blog/blog.html'
-
-    def get_queryset(self):
-        return BlogPosts.objects.filter(blog_title__icontains=self.request.GET.get("q"))
-
-    def get_context_data(self, *, object_list=None, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["q"] = self.request.GET.get("q")
-        context['categories_blog'] = BlogsCategories.objects.all()
-        return context
-
-
 class ShowPost(HitCountDetailView):
     model = BlogPosts
     template_name = 'blog/single-blog.html'
@@ -75,8 +38,28 @@ class ShowPost(HitCountDetailView):
             form.instance.user = request.user
             form.instance.post = post
             form.save()
+            return redirect(reverse('detail', kwargs={'categories_blog': post.slug}))
+        user = request.user
+        if request.method == 'POST':
+            post_id = request.POST.get('post_id')
+            post_obj = BlogPosts.objects.get(id=post_id)
 
-            return redirect('home')
+            if user in post_obj.likes.all():
+                post_obj.likes.remove(user)
+            else:
+                post_obj.likes.add(user)
+
+            like, created = Like.objects.get_or_create(user=user, post_id=post_id)
+
+            if not created:
+                if like.value == 'Like':
+                    like.value = 'Unlike'
+                else:
+                    like.value = 'Like'
+
+            like.save()
+
+        return redirect(post_obj)
 
     def get_context_data(self, *args, **kwargs):
         post_comments = CommentPost.objects.all().filter(post=self.object.id)
@@ -104,4 +87,18 @@ class ShowCategories(ListView):
         context['categories_blog'] = BlogsCategories.objects.all()
         context['recent_post_blog'] = RecentPost.objects.all()
         context['images_instagram'] = InstagramFeeds.objects.all()
+        return context
+
+
+class Search(ListView):
+    context_object_name = 'posts'
+    template_name = 'blog/blog.html'
+
+    def get_queryset(self):
+        return BlogPosts.objects.filter(blog_title__icontains=self.request.GET.get("q"))
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["q"] = self.request.GET.get("q")
+        context['categories_blog'] = BlogsCategories.objects.all()
         return context
