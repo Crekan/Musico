@@ -109,6 +109,8 @@ class ShowPost(HitCountDetailView):
         post_comments = CommentPost.objects.all().filter(post=self.object.id)
         context = super().get_context_data(**kwargs)
         context['categories_blog'] = BlogsCategories.objects.all()
+        context['recent_post_blog'] = RecentPost.objects.all()
+        context['images_instagram'] = InstagramFeeds.objects.all()
         context['author'] = AuthorBlog.objects.all()
         context['comments'] = CommentPost.objects.filter(post__slug=self.kwargs['categories_blog'])
         context.update({
