@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'home.apps.HomeConfig',
     'tinymce',
+    'hitcount',
 ]
 
 MIDDLEWARE = [

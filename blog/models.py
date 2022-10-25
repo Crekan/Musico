@@ -3,7 +3,6 @@ from django.urls import reverse
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 
-
 LIKE_CHOICES = (
     ('Like', 'Like'),
     ('Unlike', 'Unlike')
@@ -49,9 +48,17 @@ class BlogPosts(models.Model):
         })
 
 
+class CommentPost(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    post = models.ForeignKey(BlogPosts, on_delete=models.CASCADE)
+    text = models.TextField()
+    # created = models.DateTimeField(auto_now=True)
+
+
 class BlogsCategories(models.Model):
     slug = models.SlugField(max_length=255, unique=True, db_index=True, verbose_name='URL', null=True)
     categories_name = models.CharField(max_length=255, verbose_name='Категория')
+    categories_number = models.ManyToManyField('BlogsCategories', blank=True, default=None, related_name='number_cat')
 
     def __str__(self):
         return self.categories_name

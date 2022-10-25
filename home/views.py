@@ -1,3 +1,5 @@
+from django.http import HttpResponseNotFound
+from django.shortcuts import render
 from django.views.generic import ListView
 
 from .models import *
@@ -15,3 +17,7 @@ class Home(ListView):
         context['latest_tracks_list'] = LatestTracks.objects.all()
         context['about_are_list'] = AboutArea.objects.all()
         return context
+
+
+def pageNotFound(request, exception):
+    return render(request, 'home/404.html')

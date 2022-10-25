@@ -1,8 +1,10 @@
-from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView
+from django.views.generic.edit import FormMixin
+from hitcount.views import HitCountDetailView
 
 from .models import *
+from .forms import *
 
 
 def like_post(request):
@@ -60,17 +62,61 @@ class Search(ListView):
         return context
 
 
-class ShowPost(DetailView):
+# class ShowPostTest(HitCountDetailView):
+#     model = BlogPosts
+#     template_name = 'blog/single-blog.html'
+#     slug_field = 'categories_blog'
+#     context_object_name = 'post'
+#     form = CommentForm
+#
+    # def post(self, request, *args, **kwargs):
+    #     form = CommentForm(request.POST)
+    #     if form.is_valid():
+    #         post = self.get_object()
+    #         form.instance.user = request.user
+    #         form.instance.post = post
+    #         form.save()
+    #
+    #         return redirect('home')
+#
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         context['form'] = self.form
+#         context['categories_blog'] = BlogsCategories.objects.all()
+#         context['author'] = AuthorBlog.objects.all()
+#         context['comments'] = CommentPost.objects.filter(post__slug=self.kwargs['categories_blog'])
+#         return context
+
+
+class ShowPost(HitCountDetailView):
     model = BlogPosts
     template_name = 'blog/single-blog.html'
     slug_url_kwarg = 'categories_blog'
     context_object_name = 'post'
+    form = CommentForm
+
+    def post(self, request, *args, **kwargs):
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            post = self.get_object()
+            form.instance.user = request.user
+            form.instance.post = post
+            form.save()
+
+            return redirect('home')
 
     def get_context_data(self, *args, **kwargs):
+        post_comments = CommentPost.objects.all().filter(post=self.object.id)
         context = super().get_context_data(**kwargs)
         context['categories_blog'] = BlogsCategories.objects.all()
         context['author'] = AuthorBlog.objects.all()
+        context['comments'] = CommentPost.objects.filter(post__slug=self.kwargs['categories_blog'])
+        context.update({
+            'form': self.form,
+            'post_comments': post_comments,
+        })
         return context
+
 
 
 class ShowCategories(ListView):

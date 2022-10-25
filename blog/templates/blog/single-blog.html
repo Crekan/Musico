@@ -64,11 +64,13 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="post_id" value="{{ post.id }}">
                                     {% if user not in post.likes.all %}
-                                        <input type="image" src="{% static 'home/img/icon/thumbs-up.png' %}" alt="Кнопка «input»">
+                                        <input type="image" src="{% static 'home/img/icon/thumbs-up.png' %}"
+                                               alt="Кнопка «input»">
                                     {% else %}
-                                        <input type="image" src="{% static 'home/img/icon/thumbs-up.png' %}" alt="Кнопка «input»">
+                                        <input type="image" src="{% static 'home/img/icon/thumbs-up.png' %}"
+                                               alt="Кнопка «input»">
                                     {% endif %}
-                                <strong style="vertical-align: 7px">Likes - {{ post.likes.all.count }}</strong>
+                                    <strong style="vertical-align: 7px">Likes - {{ post.likes.all.count }}</strong>
                                 </p>
                                 <ul class="social-icons">
                                     <li><a href="#"><i class="fa fa-facebook-f"></i></a></li>
@@ -223,8 +225,10 @@
                                 </button>
                             </div>
                         </form>
+
                     </div>
                 </div>
+
 
                 <div class="col-lg-4">
                     <div class="blog_right_sidebar">
@@ -287,6 +291,19 @@
     </section>
     <!--================ Blog Area end =================-->
 
+
+    <hr>
+    {% for comment in comments %}
+        Автор - {{ comment.user }}<br>
+        Текст - {{ comment.text }}<br><hr>
+    {% endfor %}
+    <hr>
+    <h3>Commetn</h3>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <button type="submit">Add </button>
+    </form>
 
 
 
