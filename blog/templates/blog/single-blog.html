@@ -105,21 +105,6 @@
                             </div>
                         </div>
                     {% endfor %}
-
-
-                {#                                        <hr>#}
-{#                        {% for comment in comments %}#}
-{#                            Автор - {{ comment.user }}<br>#}
-{#                            Текст - {{ comment.text }}<br><hr>#}
-{#                        {% endfor %}#}
-{#                        <hr>#}
-{#                        <h3>Commetn</h3>#}
-{#                        <form action="" method="post">#}
-{#                            {% csrf_token %}#}
-{#                            {{ form }}#}
-{#                            <button type="submit">Add </button>#}
-{#                        </form>#}
-
                     <div class="comments-area">
                         <h4>05 Comments</h4>
                         {% for comment in comments %}
