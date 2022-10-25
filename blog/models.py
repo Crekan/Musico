@@ -52,7 +52,11 @@ class CommentPost(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     post = models.ForeignKey(BlogPosts, on_delete=models.CASCADE)
     text = models.TextField()
-    # created = models.DateTimeField(auto_now=True)
+    email = models.EmailField(null=True)
+    created = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f'{self.user} | left a comment on a post - {self.post}'
 
 
 class BlogsCategories(models.Model):
