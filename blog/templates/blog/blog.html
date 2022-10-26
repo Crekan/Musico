@@ -51,7 +51,7 @@
                                     <p>{{ post.blog_descriptions|linebreaks|truncatewords:50 }}</p>
                                     <ul class="blog-info-link">
                                         <li><a href="{{ post.get_absolute_url }}"><img src="{% static 'home/img/icon/user.png' %}" width="15"> {{ post.blog_who_posted }}</a></li>
-                                        <li><a href="{{ post.get_absolute_url }}"><img src="{% static 'home/img/icon/comment-solid.svg' %}" width="15"> {{ post.blog_comments }}</a></li>
+                                        <li><a href="{{ post.get_absolute_url }}"><img src="{% static 'home/img/icon/comment-solid.svg' %}" width="15"> {{ post_comments_count }} Comments</a></li>
                                     </ul>
                                 </div>
 

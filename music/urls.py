@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include('about.urls')),
     path('', include('tracks.urls')),
     path('', include('blog.urls')),
+    path('', include('contact.urls')),
 
     path('__debug__/', include('debug_toolbar.urls')),
     re_path(r'hitcount/', include('hitcount.urls', namespace='hitcount')),

@@ -36,12 +36,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'contact.apps.ContactConfig',
     'blog.apps.BlogConfig',
     'tracks.apps.TracksConfig',
     'about.apps.AboutConfig',
     'debug_toolbar',
     'home.apps.HomeConfig',
-    'tinymce',
     'hitcount',
 ]
 

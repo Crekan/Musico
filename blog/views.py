@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView
+from django.views.generic.edit import FormMixin
 from hitcount.views import HitCountDetailView
 
 from .models import *
@@ -16,11 +17,16 @@ class Blog(ListView):
     def get_queryset(self):
         return BlogPosts.objects.all()
 
-    def get_context_data(self, **kwargs):
+    def get_context_data(self, *args, **kwargs):
+        # post_comments_count = CommentPost.objects.all().filter(post=self.kwargs['slug']).count()
         context = super().get_context_data(**kwargs)
         context['categories_blog'] = BlogsCategories.objects.all()
+        context['posts'] = BlogPosts.objects.all()
         context['recent_post_blog'] = RecentPost.objects.all()
         context['images_instagram'] = InstagramFeeds.objects.all()
+        context.update({
+            # 'post_comments_count': post_comments_count,
+        })
         return context
 
 
@@ -40,6 +46,7 @@ class ShowPost(HitCountDetailView):
             form.save()
             return redirect(reverse('detail', kwargs={'categories_blog': post.slug}))
         user = request.user
+
         if request.method == 'POST':
             post_id = request.POST.get('post_id')
             post_obj = BlogPosts.objects.get(id=post_id)
@@ -62,6 +69,7 @@ class ShowPost(HitCountDetailView):
         return redirect(post_obj)
 
     def get_context_data(self, *args, **kwargs):
+        post_comments_count = CommentPost.objects.all().filter(post=self.object.id).count()
         post_comments = CommentPost.objects.all().filter(post=self.object.id)
         context = super().get_context_data(**kwargs)
         context['categories_blog'] = BlogsCategories.objects.all()
@@ -72,6 +80,7 @@ class ShowPost(HitCountDetailView):
         context.update({
             'form': self.form,
             'post_comments': post_comments,
+            'post_comments_count': post_comments_count,
         })
         return context
 
