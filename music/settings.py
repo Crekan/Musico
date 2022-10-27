@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'telebot.apps.TelebotConfig',
     'contact.apps.ContactConfig',
     'blog.apps.BlogConfig',
     'tracks.apps.TracksConfig',

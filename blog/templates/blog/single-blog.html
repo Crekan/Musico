@@ -45,7 +45,7 @@
                                                      width="15"> {{ post.blog_who_posted }}</a>
                                 </li>
                                 <li><a href="#"><img src="{% static 'home/img/icon/comment-solid.svg' %}"
-                                                     width="15"> {{ post.blog_comments }}</a>
+                                                     width="15"> {{ post_comments_count }} Comments</a>
                                 </li>
                             </ul>
                             <p class="excert">{{ post.blog_descriptions|safe|linebreaks }}</p>

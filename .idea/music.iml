@@ -27,6 +27,7 @@
         <option value="$MODULE_DIR$/about/templates" />
         <option value="$MODULE_DIR$/tracks/templates" />
         <option value="$MODULE_DIR$/blog/templates" />
+        <option value="$MODULE_DIR$/contact/templates" />
       </list>
     </option>
   </component>

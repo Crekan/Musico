@@ -8,8 +8,6 @@
 {% block content %}
 
 
-
-
     <!-- bradcam_area  -->
     <div class="bradcam_area breadcam_bg_2">
         <div class="container">
@@ -28,67 +26,66 @@
     <div class="music_area music_gallery inc_padding">
         <div class="container">
             {% for treks_music in tracks_area %}
-            <div class="row align-items-center justify-content-center mb-20">
-                <div class="col-xl-10">
-                    <div class="row align-items-center">
-                        <div class="col-xl-9 col-md-9">
-                            <div class="music_field">
-                                <div class="thumb">
-                                    <img src="{{ treks_music.tracks_images.url }}" alt="">
-                                </div>
-                                <div class="audio_name">
-                                    <div class="name">
-                                        <h4>{{ treks_music.tracks_title }}</h4>
-                                        <p>{{ treks_music.tracks_date_added }}</p>
+                <div class="row align-items-center justify-content-center mb-20">
+                    <div class="col-xl-10">
+                        <div class="row align-items-center">
+                            <div class="col-xl-9 col-md-9">
+                                <div class="music_field">
+                                    <div class="thumb">
+                                        <img src="{{ treks_music.tracks_images.url }}" alt="">
                                     </div>
-                                    <audio preload="auto" controls>
-                                        <source src="{{ treks_music.tracks_music.url }}">
-                                    </audio>
+                                    <div class="audio_name">
+                                        <div class="name">
+                                            <h4>{{ treks_music.tracks_title }}</h4>
+                                            <p>{{ treks_music.tracks_date_added }}</p>
+                                        </div>
+                                        <audio preload="auto" controls>
+                                            <source src="{{ treks_music.tracks_music.url }}">
+                                        </audio>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xl-3 col-md-3">
+                                <div class="music_btn">
+                                    <a href="#" class="boxed-btn">buy albam</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-3 col-md-3">
-                            <div class="music_btn">
-                                <a href="#" class="boxed-btn">buy albam</a>
-                            </div>
-                        </div>
                     </div>
                 </div>
-        </div>
             {% endfor %}
-    </div>
-    <!-- music_area end  -->
+        </div>
+        <!-- music_area end  -->
 
-    <!-- youtube_video_area  -->
-    <div class="youtube_video_area">
-        <div class="container-fluid p-0">
-            <div class="row no-gutters">
-                {% for video in home_images_list %}
-                <div class="col-xl-3 col-lg-3 col-md-6">
-                    <div class="single_video">
-                        <div class="thumb">
-                            <img src="{{ video.images.url }}" alt="">
-                        </div>
-                        <div class="hover_elements">
-                            <div class="video">
-                                <a class="popup-video" href="https://www.youtube.com/watch?v=sS3rNc0u7s0">
-                                    <img src="{% static 'home/img/icon/play-button.png' %}" alt="">
-                                </a>
-                            </div>
+        <!-- youtube_video_area  -->
+        <div class="youtube_video_area">
+            <div class="container-fluid p-0">
+                <div class="row no-gutters">
+                    {% for video in home_images_list %}
+                        <div class="col-xl-3 col-lg-3 col-md-6">
+                            <div class="single_video">
+                                <div class="thumb">
+                                    <img src="{{ video.images.url }}" alt="">
+                                </div>
+                                <div class="hover_elements">
+                                    <div class="video">
+                                        <a class="popup-video" href="https://www.youtube.com/watch?v=sS3rNc0u7s0">
+                                            <img src="{% static 'home/img/icon/play-button.png' %}" alt="">
+                                        </a>
+                                    </div>
 
-                            <div class="hover_inner">
-                                <span>{{ video.place }}/span>
-                                <h3><a href="#">{{ video.title }}</a></h3>
+                                    <div class="hover_inner">
+                                        <span>{{ video.place }}</span>
+                                        <h3><a href="#">{{ video.title }}</a></h3>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% endfor %}
             </div>
         </div>
     </div>
-    <!-- / youtube_video_area  -->
-
     <!-- contact_rsvp -->
     <div class="contact_rsvp">
         <div class="container">
@@ -96,18 +93,11 @@
                 <div class="col-xl-12">
                     <div class="text text-center">
                         <h3>Contact For RSVP</h3>
-                        <a class="boxed-btn3" href="contact.html">Contact Me</a>
+                        <a class="boxed-btn3" href="{% url 'contact' %}">Contact Me</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
     <!--/ contact_rsvp -->
-
-
-
-
-
-
-
 {% endblock %}
