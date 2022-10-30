@@ -1,10 +1,7 @@
-from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.views.generic import ListView
-from django.views.generic.edit import FormMixin
 from hitcount.views import HitCountDetailView
 
-from .models import *
 from .forms import *
 
 
@@ -18,15 +15,11 @@ class Blog(ListView):
         return BlogPosts.objects.all()
 
     def get_context_data(self, *args, **kwargs):
-        # post_comments_count = CommentPost.objects.all().filter(post=self.kwargs['slug']).count()
         context = super().get_context_data(**kwargs)
         context['categories_blog'] = BlogsCategories.objects.all()
         context['posts'] = BlogPosts.objects.all()
         context['recent_post_blog'] = RecentPost.objects.all()
         context['images_instagram'] = InstagramFeeds.objects.all()
-        context.update({
-            # 'post_comments_count': post_comments_count,
-        })
         return context
 
 

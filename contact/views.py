@@ -14,8 +14,7 @@ class ContactFormView(FormView):
     def post(self, request, *args, **kwargs):
         name = request.POST['name']
         text = request.POST['text']
-        email = request.POST['get_in_touch_email']
-        sendTelegram(tg_name=name, tg_text=text, tg_email=email)
+        sendTelegram(tg_name=name, tg_text=text)
         return redirect('contact')
 
     def get_context_data(self, **kwargs):
