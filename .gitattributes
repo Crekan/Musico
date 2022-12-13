@@ -1,6 +1,10 @@
-*.js linguist-language=Python
-static/* linguist-vendored
-jquery.js linguist-vendored=falses
+# *.js linguist-language=Python
+# static/* linguist-vendored
+# jquery.js linguist-vendored=falses
 
-*.html text
-*.css text
+*html text eol=lf
+*css text eol=lf
+*js text eol=lf
+tests/staticfiles_tests/apps/test/static/test/*txt text eol=lf
+tests/staticfiles_tests/project/documents/test/*txt text eol=lf
+docs/releases/*.txt merge=union
