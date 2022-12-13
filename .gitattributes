@@ -1,3 +1,6 @@
 *.js linguist-language=Python
 static/* linguist-vendored
 jquery.js linguist-vendored=falses
+
+*.html text
+*.css text
